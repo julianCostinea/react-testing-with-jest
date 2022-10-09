@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export interface CounterProps {
   description: string;
@@ -32,11 +32,10 @@ export function Counter({ description, defaultCount }: CounterProps) {
       </button>
       Current Count: {count}
       <button
+      role='button'
         aria-label="Add to Counter"
         onClick={() => setCount(count + incrementor)}
-      >
-        +
-      </button>
+      >+</button>
     </div>
   );
 }
