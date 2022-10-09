@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/no-render-in-setup */
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Counter } from "./Counter";
 import user from "@testing-library/user-event";
 
@@ -15,9 +15,9 @@ describe("initialized with defaultCount=0 and description=My Counter", () => {
     expect(screen.getByText(/My Counter/)).toBeInTheDocument();
   });
 
-  it("renders counter and when clicked renders 1", () => {
+  it("renders counter and when clicked renders 1", async() => {
     fireEvent.click(screen.getByRole("button", { name: "Add to Counter" }));
-    expect(screen.getByText("Current Count: 1")).toBeInTheDocument();
+    await waitFor(()=>expect(screen.getByText("Current Count: 1")).toBeInTheDocument());
   });
   it("renders counter and when clicked renders -1", () => {
     fireEvent.click(
@@ -44,8 +44,8 @@ describe("initialized with defaultCount=10 and description=My Counter", () => {
       await user.type(screen.getByLabelText(/Incrementor/), '5{arrowleft}{backspace}');
       await user.click(screen.getByRole('button', { name: 'Add to Counter' }));
     });
-    it('renders "Current Count: 15"', () => {
-      expect(screen.getByText('Current Count: 15')).toBeInTheDocument();
+    it('renders "Current Count: 15"', async () => {
+      await waitFor(()=>expect(screen.getByText("Current Count: 15")).toBeInTheDocument());
     });
   });
 
@@ -58,13 +58,4 @@ describe("initialized with defaultCount=10 and description=My Counter", () => {
       expect(screen.getByText('Current Count: 5')).toBeInTheDocument();
     });
   });
-
-  // describe("when the count+incrementer would be higher than 10, nothing happens", () => {
-  //   beforeEach(async () => {
-  //     await user.click(screen.getByRole('button', { name: 'Add to Counter' }));
-  //   });
-  //   it('renders "Current Count: 10"', () => {
-  //     expect(screen.getByText('Current Count: 10')).toBeInTheDocument();
-  //   });
-  // });
 });
