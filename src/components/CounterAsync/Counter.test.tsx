@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/no-render-in-setup */
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import { Counter } from "./Counter";
 import user from "@testing-library/user-event";
 
@@ -46,6 +46,9 @@ describe("initialized with defaultCount=10 and description=My Counter", () => {
     });
     it('renders "Current Count: 15"', async () => {
       await waitFor(()=>expect(screen.getByText("Current Count: 15")).toBeInTheDocument());
+    });
+    it('renders too big and will dissapear after 300ms', async () => {
+      await waitForElementToBeRemoved(()=>screen.queryByText('I am too small'));
     });
   });
 

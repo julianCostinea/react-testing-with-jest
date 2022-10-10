@@ -11,9 +11,19 @@ export function Counter({ description, defaultCount }: CounterProps) {
   const [bigEnough, setBigEnough] = useState(defaultCount >= 15);
 
   useEffect(() => {
+    //for cases other than a timeout, use boolean var
+    let active = true;
+    let id: NodeJS.Timeout;
     if (count >= 15) {
-      setTimeout(() => setBigEnough(true), 300);
+      id = setTimeout(() => setBigEnough(true), 300);
+      // setTimeout(() => {
+      //   if (active) setBigEnough(true);
+      // }, 300);
     }
+    return function cleanup() {
+      active = false;
+      clearTimeout(id);
+    };
   });
 
   return (
